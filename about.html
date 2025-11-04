@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EmotAI – 프로젝트 소개</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- 필요하면 chat 페이지에서 쓰던 아이콘 폰트/이미지도 링크 -->
+</head>
+<body>
+
+  <!-- 상단 히어로 (chat과 동일 톤) -->
+  <section class="container hero">
+    <img src="images/emoji-bot.png" alt="" width="44" height="44" />
+    <h1>Welcome to <span style="color:var(--primary)">EmotAI</span></h1>
+    <p>감정을 이해하는 첫 걸음, EmotAI와 함께<br/>AI 기반 심리 분석으로 새로운 통찰을 제공함</p>
+
+    <div style="margin-top:16px; display:flex; gap:12px; justify-content:center;">
+      <a href="chat.html" class="btn btn-primary">감정 분석 시작하기</a>
+      <a href="index.html" class="btn btn-ghost">홈으로</a>
+    </div>
+  </section>
+
+  <!-- 소개 카드 -->
+  <section class="container card" style="padding:24px;">
+    <h2 style="margin:0 0 8px;">프로젝트 목적</h2>
+    <p style="color:var(--muted); margin:0;">
+      EmotAI는 일상 대화를 통해 사용자의 정서 패턴을 파악하고,
+      자기 이해와 회복탄력성을 돕는 맞춤 피드백을 제공함.
+      의료상담을 대체하지 않으며, 위기 상황 시 지역 상담/긴급센터 연결을 권장함.
+    </p>
+  </section>
+
+  <!-- 핵심 기능 3열 -->
+  <section class="container features">
+    <article class="card" style="padding:20px;">
+      <h3 style="margin:0 0 6px;">대화형 감정 분석</h3>
+      <p style="color:var(--muted); margin:0;">메시지 톤·키워드·맥락을 바탕으로 감정 지표를 산출함</p>
+    </article>
+    <article class="card" style="padding:20px;">
+      <h3 style="margin:0 0 6px;">안전한 데이터 처리</h3>
+      <p style="color:var(--muted); margin:0;">동의 없는 저장 없음·익명화 처리·세션 단위 분석 기본값 적용</p>
+    </article>
+    <article class="card" style="padding:20px;">
+      <h3 style="margin:0 0 6px;">셀프 케어 가이드</h3>
+      <p style="color:var(--muted); margin:0;">상황·감정에 맞춘 실천 팁과 리소스 제안</p>
+    </article>
+  </section>
+
+  <!-- 팀/연락처 등 -->
+  <section class="container card" style="padding:20px;">
+    <h2 style="margin:0 0 8px;">팀 & 윤리 원칙</h2>
+    <ul style="margin:8px 0 0 16px; color:var(--muted); line-height:1.7;">
+      <li>TEAM PYTHON LATTE · 학술 연구 목적 우선</li>
+      <li>투명성/동의/삭제권 보장 · 로그 최소화</li>
+      <li>의료·응급 상황 대체 불가 고지</li>
+    </ul>
+  </section>
+
+  <footer class="footer">© TEAM PYTHON LATTE</footer>
+</body>
+</html>
