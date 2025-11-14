@@ -1,0 +1,6 @@
+.env
+.venv/
+__pycache__/
+*.log
+.DS_Store
+psybot.db

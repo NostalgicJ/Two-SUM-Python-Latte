@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: psy
+    ports: [ "3306:3306" ]
+
+  mongo:
+    image: mongo:7
+    ports: [ "27017:27017" ]
+
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    environment:
+      ORACLE_PASSWORD: pass
+      APP_USER: app
+      APP_USER_PASSWORD: pass
+    ports: [ "1521:1521" ]

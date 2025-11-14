@@ -1,0 +1,13 @@
+python-dotenv
+SQLAlchemy
+pymysql
+oracledb
+pymongo
+pandas
+datasets
+fastapi
+uvicorn
+transformers
+torch
+sentencepiece
+accelerate
