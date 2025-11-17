@@ -1,12 +1,15 @@
+# ── Core backend ──────────────────────────
 python-dotenv
 SQLAlchemy
 pymysql
-oracledb
-pymongo
-pandas
-datasets
+
 fastapi
 uvicorn
+
+# ── 데이터/모델 쪽 (analyze.py, hf_ingest_* 에서 쓸 애들) ──
+pandas
+datasets
+
 transformers
 torch
 sentencepiece

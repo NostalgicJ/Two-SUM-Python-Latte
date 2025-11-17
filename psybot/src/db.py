@@ -1,65 +1,50 @@
-# src/db.py — SQLite 기본 + (옵션) MySQL, Mongo 연결 제공
-import os
-import sqlite3
+from pathlib import Path
 from contextlib import contextmanager
+import os
 
+import pymysql
 from dotenv import load_dotenv
+from sqlalchemy import create_engine
 
-# (옵션) MySQL, Mongo는 설치돼 있지 않아도 동작하도록 지연 임포트 시도
-try:
-    from sqlalchemy import create_engine  # type: ignore
-except Exception:  # SQLAlchemy 미설치 시 None 처리
-    create_engine = None  # type: ignore
+# ── .env 불러오기 ──────────────────────────────────────────────
+ROOT = Path(__file__).resolve().parents[1]
+load_dotenv(ROOT / ".env")
 
-try:
-    from pymongo import MongoClient  # type: ignore
-except Exception:  # PyMongo 미설치 시 None 처리
-    MongoClient = None  # type: ignore
+MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
+MYSQL_PORT = int(os.getenv("MYSQL_PORT", "3306"))
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "pass")
+MYSQL_DB = os.getenv("MYSQL_DB", "psy")
 
-load_dotenv()
-
-# ---------- SQLite (기본) ----------
-DB_PATH = os.getenv("DB_PATH", "./psybot.db")
-
+# ── FastAPI에서 사용하는 기본 커넥션 헬퍼 ─────────────────────
 @contextmanager
 def get_conn():
     """
-    SQLite 연결 컨텍스트 매니저.
-    - 외래키 강제: ON
-    - 자동 커밋: with 블록 정상 종료 시 commit
+    MySQL(pymysql) 커넥션을 열고, with 블록이 끝나면 자동 commit/rollback + close
+    사용법: with get_conn() as conn: ...
     """
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("PRAGMA foreign_keys = ON;")
+    conn = pymysql.connect(
+        host=MYSQL_HOST,
+        port=MYSQL_PORT,
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        database=MYSQL_DB,
+        cursorclass=pymysql.cursors.Cursor,
+        autocommit=False,
+        charset="utf8mb4",
+    )
     try:
         yield conn
         conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
     finally:
         conn.close()
 
-# ---------- MySQL (선택) ----------
-# .env 예시: MYSQL_URL=mysql+pymysql://root:pass@127.0.0.1:3306/psy
-MYSQL_URL = os.getenv("MYSQL_URL", "").strip()
-if MYSQL_URL and create_engine:
-    # pool_pre_ping=True 로 끊어진 커넥션 자동 복구
-    engine = create_engine(MYSQL_URL, future=True, pool_pre_ping=True)
-else:
-    engine = None  # SQLAlchemy 없거나 URL 미지정 시
-
-# ---------- MongoDB (선택) ----------
-# .env 예시:
-# MONGO_URL=mongodb://127.0.0.1:27017
-# MONGO_DB=psy
-MONGO_URL = os.getenv("MONGO_URL", "").strip()
-MONGO_DB  = os.getenv("MONGO_DB", "psy").strip()
-if MONGO_URL and MongoClient:
-    mongo_client = MongoClient(MONGO_URL)         # tz_aware=False 기본
-    mdb = mongo_client[MONGO_DB]
-else:
-    mongo_client = None
-    mdb = None
-
-__all__ = [
-    "get_conn",  # SQLite 컨텍스트
-    "engine",    # MySQL SQLAlchemy Engine (없으면 None)
-    "mongo_client", "mdb",  # Mongo Client/DB (없으면 None)
-]
+# ── /stats/labels 에서 쓸 수 있는 SQLAlchemy 엔진 (선택) ──────
+MYSQL_URL = (
+    f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}"
+    f"@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}?charset=utf8mb4"
+)
+engine = create_engine(MYSQL_URL, future=True, echo=False)
