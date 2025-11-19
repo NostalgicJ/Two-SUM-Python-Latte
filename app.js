@@ -3,7 +3,7 @@ const input = document.getElementById('user-input');
 const messages = document.getElementById('messages');
 
 // 최초 봇 인사 (피드에 표시)
-appendBot(`Welcome to EmotAI.\nThe first step to understanding your emotions begins here.`);
+appendBot(`안녕하세요! 저는 당신의 감정 패턴을 분석하고 이해를 돕는 EmotAI입니다. 오늘 당신의 일상 속 이야기를 편하게 드려주세요.`);
 
 // 엔터/버튼 제출
 form.addEventListener('submit', async (e) => {
