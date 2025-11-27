@@ -17,18 +17,31 @@ body {
   background: #f5f7fb;
   display: flex;
   flex-direction: column; /* 요소들을 세로 방향으로 정렬 */
+<<<<<<< HEAD
   align-items: center;    /* 가로 가운데 */
+=======
+ /*align-items: center;    /* 가로 가운데 */
+>>>>>>> origin/main
   justify-content: center; /* 위에서부터 배치 */
   min-height: 100vh;
 }
 
 :root {
+<<<<<<< HEAD
   --bg: #fafafa;
   --card-bg: #ffffff;
   --text: #0f172a;
   --muted: #6b7280;
   --primary: #ff9088;
   --primary-600: #ff9088;
+=======
+  --bg: #f5f7fb;
+  --card-bg: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --primary: #3b82f6;
+  --primary-600: #2563eb;
+>>>>>>> origin/main
   --radius: 16px;
   --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
   --max-w: 720px;
