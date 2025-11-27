@@ -71,3 +71,33 @@ CREATE TABLE IF NOT EXISTS cue_intervention (
   boundaries TEXT         NULL,
   FOREIGN KEY (cue_id) REFERENCES kb_social_cue(cue_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ===========================
+-- 챗봇 로그용 테이블 추가
+-- ===========================
+
+CREATE TABLE IF NOT EXISTS user_message (
+  message_id   INT AUTO_INCREMENT PRIMARY KEY,
+  user_id      INT NOT NULL,
+  session_id   INT NULL,
+  text         TEXT NOT NULL,
+  created_at   DATETIME NOT NULL,
+  source       VARCHAR(32) NOT NULL DEFAULT 'chat',
+  masked       TINYINT(1) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS inference_result (
+  inference_id     INT AUTO_INCREMENT PRIMARY KEY,
+  message_id       INT NOT NULL,
+  model_name       VARCHAR(64) NOT NULL,
+  emotion          VARCHAR(32) NOT NULL,
+  sentiment_score  FLOAT,
+  toxicity         FLOAT,
+  risk_flag        VARCHAR(32),
+  inferred_at      DATETIME NOT NULL,
+  valence          FLOAT,
+  arousal          FLOAT,
+  CONSTRAINT fk_inference_msg
+    FOREIGN KEY (message_id) REFERENCES user_message(message_id)
+    ON DELETE CASCADE
+);

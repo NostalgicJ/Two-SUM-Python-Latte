@@ -6,7 +6,7 @@ conn = pymysql.connect(
     host="localhost",
     port=3306,
     user="root",
-    password="pass",  # docker exec로 확인한 그 비밀번호
+    password="pass",  # 실제 비번에 맞게
 )
 
 print("✅ 연결 성공!")
