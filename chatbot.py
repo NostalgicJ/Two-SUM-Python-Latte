@@ -84,6 +84,7 @@ CRISIS_PATTERNS = [
 ]
 
 def is_crisis(text: str) -> bool:
+    """단순 키워드 매칭 기반 위기 감지."""
     return any(re.search(p, text, re.IGNORECASE) for p in CRISIS_PATTERNS)
 
 # ── 1-1) 심리 스킬 라이브러리 (skills.json RAG-lite) ───────────────────
@@ -381,7 +382,7 @@ def main():
         # 두 번째 이상 같은 문장이 들어오면 스킬 상세 모드 on
         force_detail = same_count >= 2
 
-        # 위기 여부 먼저 확인
+        # 위기 여부 먼저 확인 (키워드 기반)
         if is_crisis(user):
             reply = SAFETY_MSG
             used_skills: List[Dict[str, Any]] = []
