@@ -1,13 +1,19 @@
 // app.js — EmotAI 웹 클라이언트
 
+// ✅ 백엔드 주소 설정
+// 같은 도메인(ngrok로 접속한 그 주소) 기준으로 /chat 을 호출하게 함
+// 예: https://~~~.ngrok-free.dev/chat
+const API_BASE = "";
+
+// DOM 요소 잡기
 const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
 const messages = document.getElementById('messages');
 
 // 최초 봇 인사
 appendBot(
-  '안녕하세요! 저는 당신의 감정 패턴을 분석하고 이해를 돕는 EmotAI입니다. ' +
-  '오늘 있었던 일이나 요즘 계속 떠오르는 생각들을 편하게 들려줘.'
+  "안녕하세요! 저는 당신의 감정 패턴을 분석하고 이해를 돕는 EmotAI입니다. " +
+  "오늘 있었던 일이나 요즘 계속 떠오르는 생각들을 편하게 들려줘."
 );
 
 // 폼 제출(엔터 / 버튼 클릭)
@@ -26,7 +32,7 @@ form.addEventListener('submit', async (e) => {
   const thinkingEl = appendBot('…');
 
   try {
-    // 백엔드(web_api.py) 호출
+    // 🔗 백엔드(web_api.py) 호출
     const reply = await callChatApi(text);
 
     // 생각 중 제거 후 답변 출력
@@ -58,21 +64,15 @@ function appendMsg(text, who) {
   return el;
 }
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 // ===== 실제 API 호출 =====
-// web_api.py 가 127.0.0.1:8010 에 떠 있다고 가정
 async function callChatApi(userText) {
-  const resp = await fetch('http://127.0.0.1:8010/chat', {
+  const resp = await fetch(`${API_BASE}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: userText }),
   });
 
   if (!resp.ok) {
-    // 에러 응답일 때 디버깅용
     const errText = await resp.text().catch(() => '');
     throw new Error(`HTTP ${resp.status} ${errText}`);
   }

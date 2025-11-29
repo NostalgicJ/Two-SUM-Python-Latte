@@ -4,15 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>EmotAI</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <!-- 정적 경로 기준으로 수정 -->
+  <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body class="landing-wrap">
   <header class="landing-nav">
-    <!--<div class="brand">🤖 EmotAI</div>
+    <!--
+    <div class="brand">🤖 EmotAI</div>
     <nav class="nav-actions">
       <a class="ghost" href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
-      <a class="solid" href="chat.html">감정 분석 시작하기</a>
-    </nav>-->
+      <a class="solid" href="/static/chat.html">감정 분석 시작하기</a>
+    </nav>
+    -->
   </header>
 
   <main class="landing-hero">
@@ -23,17 +27,19 @@
     </h1>
 
     <p class="hero-sub">
-      감정을 이해하고 기록하는 것은 자기 돌봄의 첫걸음입니다.<br/>
-      EmotAI는 AI 기술을 통해 '나의 감정을 한 눈에 이해할 수 있게 도와주는 심리 분석 플래폼입니다.
+      감정을 이해하고 기록하는 것은 자기 돌봄의 첫걸음입니다.<br />
+      EmotAI는 AI 기술을 통해 '나의 감정을 한 눈에 이해할 수 있게 도와주는 심리 분석 플랫폼입니다.
     </p>
 
     <div class="hero-cta">
-      <a class="solid lg" href="chat.html">감정 분석 시작하기</a>
-      <a class="ghost lg" href="about.html">목적</a>
+      <!-- chat / about 도 정적 경로 기준 -->
+      <a class="solid lg" href="/static/chat.html">감정 분석 시작하기</a>
+      <a class="ghost lg" href="/static/about.html">목적</a>
     </div>
 
     <p class="note">
-      * EmotAI는 의료·상담을 대체하지 않으며, 긴급 상황 시 지역 상담/긴급센터에 연락하세요.</p>
+      * EmotAI는 의료·상담을 대체하지 않으며, 긴급 상황 시 지역 상담/긴급센터에 연락하세요.
+    </p>
   </main>
 
   <section id="features" class="landing-features">
@@ -53,7 +59,7 @@
 
   <footer class="landing-footer">
     <span>© TEAM PYTHON LATTE</span>
-    <!--<a href="chat.html">바로 채팅하기 →</a>-->
+    <!-- <a href="/static/chat.html">바로 채팅하기 →</a> -->
   </footer>
 </body>
 </html>

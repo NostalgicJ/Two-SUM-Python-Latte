@@ -1,7 +1,9 @@
-# web_api.py  —  프론트(chat.html)에서 호출하는 HTTP API
+# web_api.py  —  EmotAI 웹 프론트 + HTTP API
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 # chatbot.py 안의 로직 재사용
@@ -18,22 +20,33 @@ from chatbot import (
 
 app = FastAPI(title="EmotAI Web API")
 
-# --- CORS 설정: http://localhost:5500 에서 JS로 호출 가능하게 ---
-origins = [
-    "http://localhost:5500",
-    "http://127.0.0.1:5500",
-]
-
+# --- CORS 설정: 어디서든 접근 가능(개발용) ---
+# ngrok로 접속하는 브라우저들이 전부 허용되도록 *
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,  # "*" 쓸 땐 False
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# --- 정적 파일 & 메인 페이지 서빙 설정 ---
+
+# /static/... 으로 static 폴더의 파일들 제공
+# (index.html, chat.html, about.html, app.js, styles.css 등)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+# 루트(/)로 들어오면 랜딩 페이지 index.html 반환
+@app.get("/")
+def serve_index():
+    # web_api.py와 같은 폴더 기준으로 static/index.html
+    return FileResponse("static/index.html")
+
+
 # --- psybot 세션 관리 ---
 SESSION_ID: int = 0
+
 
 def ensure_session():
     global SESSION_ID
@@ -41,12 +54,15 @@ def ensure_session():
         SESSION_ID = create_psybot_session(USER_ID)
         print(f"web_api: psybot session = {SESSION_ID}")
 
+
 # --- 요청/응답 모델 ---
 class ChatIn(BaseModel):
     message: str
 
+
 class ChatOut(BaseModel):
     reply: str
+
 
 # --- /chat 엔드포인트 ---
 @app.post("/chat", response_model=ChatOut)
